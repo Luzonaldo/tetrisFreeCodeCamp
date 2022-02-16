@@ -19,28 +19,28 @@ document.addEventListener("DOMContentLoaded", () => {
         [0, width, width+1, width*2+1],
         [width+1,width+2, width*2, width*2+1],
         [0, width, width+1, width*2+1]
-    ]
+    ];
 
     const tTetromino = [
         [1, width, width+1, width+2],
         [1, width, width+1, width*2+1],
         [width, width+1, width+2, width*2+1],
         [1, width+1, width+2, width*2+1]
-    ]
+    ];
 
     const oTetromino = [
         [0, 1, width, width+1],
         [0, 1, width, width+1],
         [0, 1, width, width+1],
         [0, 1, width, width+1]
-    ]
+    ];
     
     const iTetromino = [
         [width, width+1, width+2, width+3],
         [1, width+1, width*2+1, width*3+1],
         [width, width+1, width+2, width+3],
         [1, width+1, width*2+1, width*3+1]
-    ]
+    ];
     
     const theTetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino];
 
@@ -50,22 +50,50 @@ document.addEventListener("DOMContentLoaded", () => {
     // randomly select  a tetromino and its first rotation
     let random = Math.floor(Math.random()*theTetrominoes.length)
 
-    let current = theTetrominoes[random][currentRotation];
+    let current = theTetrominoes[random][currentRotation]; //[tetromino's shape] [array with the current rotation of the tetromino]
 
-// draw the first rotation in the firs tetromino
+// draw the Tetromino
 
 function draw () {
 current.forEach(index => {
     squares[curretPosition + index].classList.add("tetromino");
-    console.log(index);
+    console.log(theTetrominoes[random][currentRotation]);
+    console.log(squares[curretPosition + index]);
 
 })
 
 }
 
-draw();
+function undraw() {
+    current.forEach (index => {
+        squares[curretPosition + index].classList.remove('tetromino');
+    })
+}
 
+// make tetromino move down every second -  setInterval function
 
+timerId = setInterval(moveDown, 1000);
+
+//moveDown function
+function moveDown() {
+    undraw();
+    curretPosition += width;
+    draw();
+    freeze();
+    //draw();
+}
+
+//freeze function 
+function freeze() {
+    if(current.some(index => squares[curretPosition + index + width].classList.contains('taken'))) {
+        current.forEach (index => squares[curretPosition + index].classList.add('taken'));
+        //start a new tetromino falling
+        random = Math.floor(Math.random() * theTetrominoes.length)
+        current = theTetrominoes[random][currentRotation];
+        curretPosition = 4;
+        draw();
+    }
+}
 
 
 

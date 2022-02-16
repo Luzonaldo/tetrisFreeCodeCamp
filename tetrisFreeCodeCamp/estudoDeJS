@@ -1,4 +1,4 @@
-function getRandom() {
+/* function getRandom() {
     return Math.random();
 }
 
@@ -7,3 +7,11 @@ let rand = getRandom();
 console.log(rand);
 console.log(rand*10);
 console.log (Math.floor((rand*10)));
+
+*/
+
+let arr32 = new Float32Array([17.99, 29.99])
+console.log (arr32)
+
+let arr64 = new Float64Array([17.99, 29.99])
+console.log (arr64)

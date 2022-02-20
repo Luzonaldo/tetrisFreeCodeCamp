@@ -15,3 +15,22 @@ console.log (arr32)
 
 let arr64 = new Float64Array([17.99, 29.99])
 console.log (arr64)
+
+document.addEventListener('keydown', teclado)
+
+//which is deprecated, use key instead because takeing into consideration the state of modifier keys sucha as shift as weel as the keyboar locale and layout
+/*
+function teclado (e) {
+   
+    let teclado = e.which
+    let caracter = String.fromCharCode(teclado)
+    console.log(teclado)
+}
+*/
+
+function teclado (e) {
+   
+    let teclado = e.key
+    let caracter = String.fromCharCode(teclado)
+    console.log(teclado)
+}

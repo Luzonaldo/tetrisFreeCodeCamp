@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const theTetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino];
 
-    let curretPosition = 4;
+    let currentPosition = 4;
     let currentRotation = 0;
 
     // randomly select  a tetromino and its first rotation
@@ -56,9 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function draw () {
 current.forEach(index => {
-    squares[curretPosition + index].classList.add("tetromino");
+    squares[currentPosition + index].classList.add("tetromino");
     console.log(theTetrominoes[random][currentRotation]);
-    console.log(squares[curretPosition + index]);
+    console.log(squares[currentPosition + index]);
 
 })
 
@@ -66,18 +66,44 @@ current.forEach(index => {
 
 function undraw() {
     current.forEach (index => {
-        squares[curretPosition + index].classList.remove('tetromino');
+        squares[currentPosition + index].classList.remove('tetromino');
     })
 }
 
 // make tetromino move down every second -  setInterval function
 
-timerId = setInterval(moveDown, 1000);
+timerId = setInterval(moveRight, 1000);
+
+
+//event.keyCode is deprecated / use event.which instead.
+//assign functions to keyCodes
+function control(e) {
+    switch (e.key) {
+        //case "ArrowUp":
+        //rotate();
+        //break;
+        case "ArrowLeft":
+        moveLeft();
+        break;
+        case "ArrowRight":
+        moveRight();
+        break;
+        case "ArrowDown":
+        moveDown();
+        break;
+    } 
+}
+
+
+
+document.addEventListener('keydown', control);
+
+
 
 //moveDown function
 function moveDown() {
     undraw();
-    curretPosition += width;
+    currentPosition += width;
     draw();
     freeze();
     //draw();
@@ -85,15 +111,51 @@ function moveDown() {
 
 //freeze function 
 function freeze() {
-    if(current.some(index => squares[curretPosition + index + width].classList.contains('taken'))) {
-        current.forEach (index => squares[curretPosition + index].classList.add('taken'));
+    if(current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
+        current.forEach (index => squares[currentPosition + index].classList.add('taken'));
         //start a new tetromino falling
-        random = Math.floor(Math.random() * theTetrominoes.length)
+        random = Math.floor(Math.random() * theTetrominoes.length);
         current = theTetrominoes[random][currentRotation];
-        curretPosition = 4;
+        currentPosition = 4;
         draw();
     }
 }
+
+//moveLeft function
+
+function moveLeft () {
+    undraw();
+    const isAtLeftEdge = current.some( index => (currentPosition + index) % width === 0)
+
+    if (!isAtLeftEdge) currentPosition -= 1;
+
+    if (current.some (index => squares[currentPosition + index].classList.contains('taken')))
+        currentPosition += 1;
+
+    draw();
+
+    }
+
+    function moveRight() {
+        undraw();
+        const isAtRightEdge = current.some(index => (currentPosition + index) % width === width - 1)
+
+        if(!isAtRightEdge) currentPosition += 1;
+
+        if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+            currentPosition -=1;
+        }
+        draw();
+    }
+
+
+
+
+
+
+
+
+
 
 
 

@@ -72,16 +72,16 @@ function undraw() {
 
 // make tetromino move down every second -  setInterval function
 
-timerId = setInterval(moveRight, 1000);
+timerId = setInterval(moveDown, 1000);
 
 
-//event.keyCode is deprecated / use event.which instead.
+//event.keyCode is deprecated / use event.which (is also deprecated) instead.
 //assign functions to keyCodes
 function control(e) {
     switch (e.key) {
-        //case "ArrowUp":
-        //rotate();
-        //break;
+        case "ArrowUp":
+        rotate();
+        break;
         case "ArrowLeft":
         moveLeft();
         break;
@@ -149,7 +149,16 @@ function moveLeft () {
     }
 
 
+    function rotate() {
+        undraw();
+        currentRotation ++;
+        if (currentRotation == current.length) {
+            currentRotation = 0;
+        }
+        current = theTetrominoes[random][currentRotation]
+        draw();
 
+    }
 
 
 
